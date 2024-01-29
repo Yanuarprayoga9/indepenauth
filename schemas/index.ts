@@ -1,6 +1,12 @@
 
 import * as z from "zod";
 
+
+export const ResetPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Email Is Required",
+  })
+});
 export const LoginSchema = z.object({
   email: z.string().email({
     message: "Email Is Required",
