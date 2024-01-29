@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { AuthError } from "next-auth";
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
+import { DEFAULT_ISLOGIN_REDIRECT } from "@/routes";
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -15,6 +16,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email,
       password,
+      redirect:true,
+      redirectTo:DEFAULT_ISLOGIN_REDIRECT
     });
   } catch (error) {
     if (error instanceof AuthError) {

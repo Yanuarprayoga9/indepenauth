@@ -8,20 +8,22 @@ const prisma = new PrismaClient();
 export const {
   handlers: { GET, POST },
   auth,
-  signIn
+  signIn,
+  signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+  },
   callbacks: {
     async signIn({ user }) {
       return true;
     },
-    async redirect({ url, baseUrl }) {
-      return baseUrl;
-    },
     async session({ session }) {
+      console.log({ session });
       return session;
     },
     async jwt({ token }) {
-      console.log({token})
+      console.log({ token });
       return token;
     },
   },
