@@ -20,7 +20,11 @@ import { Input } from "@/components/ui/input";
 import { useTransition } from "react";
 import { login } from "@/actions/login";
 import FormError from "@/components/form-error";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 export const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const [isPending, setTransition] = useTransition();
@@ -32,10 +36,10 @@ export const LoginForm = () => {
     },
   });
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("")
-    setSuccess("")
+    setError("");
+    setSuccess("");
     setTransition(() => {
-      login(values).then((data) => {
+      login(values, callbackUrl).then((data) => {
         data?.error ? setError(data.error) : null;
       });
     });
@@ -80,11 +84,14 @@ export const LoginForm = () => {
                   This is your public display name.
                 </FormDescription> */}
                 <FormMessage />
+                <Button variant="link">
+                  <Link href="/auth/reset">forgot password</Link>
+                </Button>
               </FormItem>
             )}
           />
           <FormError message={error} />
-          <Button type="submit" className="w-full"  disabled={isPending}>
+          <Button type="submit" className="w-full" disabled={isPending}>
             Submit
           </Button>
         </form>
