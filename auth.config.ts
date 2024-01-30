@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import { LoginSchema } from "./schemas";
 import { db } from "./lib/db";
-import { signIn } from "next-auth/react";
 export default {
  
   providers: [
